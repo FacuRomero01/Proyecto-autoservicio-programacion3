@@ -63,15 +63,32 @@
     const contenedorProductos = document.getElementById("contenedor-productos");
     const URL_PRODUCTOS = "http://localhost:3000/api/productos"
 
+// Optimización 1: Mostramos mensaje de error visualmente
+function mostrarError(message) {
+        contenedorProductos.innerHTML = `
+        <p class="mensaje mensaje-error">${message}</p>
+    `;
+}
+
+
 async function mostrarProductos() {
     try {
-        let respuesta = await fetch(URL_PRODUCTOS);
-        let formato = await respuesta.json();
-        let productos = formato.payload;
+        const respuesta = await fetch(URL_PRODUCTOS);
+        const formato = await respuesta.json();
 
+        // Optimización 2: Muestro mensaje de error si la respuesta != 200
+        if (!respuesta.ok) {
+            mostrarError(formato.message || formato.error);
+            return;
+        }
+
+        let productos = formato.payload;
+        console.log(productos);
         renderizarProductos(productos)
+
     } catch(error) {
         console.error(error);
+        mostrarError("Error de conexión con el servidor");
     }
 }
 

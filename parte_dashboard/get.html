@@ -69,24 +69,33 @@
 <script>
     const contenedorProductos = document.getElementById("contenedor-productos");
     const getProductoForm = document.getElementById("getProducto-form");
+    const URL_PRODUCTOS = "http://localhost:3000/api/productos";
 
+    function mostrarError(message) {
+    contenedorProductos.innerHTML = `
+        <p class="mensaje mensaje-error">${message}</p>
+    `;
+}
+    
     getProductoForm.addEventListener("submit", async event => {
         event.preventDefault();
 
-        const formData = new FormData(event.target);
-        console.log(formData);
+        const idProd = event.target.idProd.value.trim();
 
-        const data = Object.fromEntries(formData.entries());
-        console.log(data);
-
-        const idProd = data.idProd;
-
-        const URL_PRODUCTOS = `http://localhost:3000/api/productos/${idProd}`
+        if (!idProd) {
+            mostrarError("Ingresá un ID valido");
+        return;
+    }
     
         try {
-            let respuesta = await fetch(URL_PRODUCTOS);
+            let respuesta = await fetch(`${URL_PRODUCTOS}/${idProd}`);
             let data = await respuesta.json();
-            console.log(data);
+
+            if (!respuesta.ok) {
+                mostrarError(data.message || data.error);
+                return;
+            }
+
             let producto = data.payload[0];
 
             const htmlProducto = `
@@ -101,11 +110,10 @@
             
             contenedorProductos.innerHTML = htmlProducto;
 
-
         } catch (error) {
             console.error("error al obtener el producto: ", error);
+            mostrarError("Error de conexion con el servidor");
         }
-    
-    
-    })
+    });
+
 </script>
