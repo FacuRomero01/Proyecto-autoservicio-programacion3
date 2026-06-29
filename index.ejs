@@ -1,0 +1,92 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+    
+
+    <main>
+
+        <section class="secccion-productos">
+            <h2> <%= about %></h2>
+            <div id="contenedor-productos">
+
+
+                <!-- Recibimos nuestro array de productos en la plantilla y lo iteramos en la misma plantilla 
+                Estamos directamente haciendo la accion del innerHTML -->
+                <% productsArray.forEach(producto => { %>
+
+                <div class="card-producto">
+                        <img src="<%=producto.image%>" alt="<%=producto.name%>">
+                        <h4><%=producto.name%></h4>
+                        <p>Id: <%=producto.id%></p>
+                        <p>$<%=producto.price%></p>
+                    </div>
+
+                <% }) %>
+
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+    /*        
+    const contenedorProductos = document.getElementById("contenedor-productos");
+
+    const url = "http://localhost:3000/api/products/";
+
+    async function obtenerProductos() {
+        try {
+
+            const response = await fetch(url);
+            console.log(response);
+
+            // Optimizacion 1: Verificamos que la respuesta HTTP fue exitosa
+            if (!response.ok) {
+                // Traemos el message que devuelve el 500
+                const parsedResponse = await response.json();
+                throw new Error(`${parsedResponse.message}`);
+            }
+
+            // Optimizacion 2: Destructuring directo
+            const { payload } = await response.json();
+            // const productos = data.payload;
+            console.log(payload);
+            
+            renderizarProductos(payload);
+
+        } catch (error) {
+            console.error(error);
+            // Optimizacion 3: Creamos una funcion que crea parrafos con formato error y el mensaje
+            // Mostramos el error en el DOM
+            mostrarError(error);
+        }
+
+    }
+
+    function renderizarProductos(array) {
+        let htmlProductos = "";
+
+        array.forEach(producto => {
+            htmlProductos += `
+                <div class="card-producto">
+                    <img src="${producto.image}" alt="${producto.name}">
+                    <h4>${producto.name}</h4>
+                    <p>Id: ${producto.id}</p>
+                    <p>$${producto.price}</p>
+                </div>
+            `;
+        });
+
+        contenedorProductos.innerHTML = htmlProductos;
+    }
+
+    function mostrarError(mensaje) {
+        contenedorProductos.innerHTML = `
+            <p class="mensaje mensaje-error">${mensaje}</p>
+        `;
+    }
+
+    obtenerProductos();
+    */
+    </script>
+
+<%- include("partials/footer.ejs") %>
