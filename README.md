@@ -15,5 +15,3 @@ El repositorio está organizado en tres módulos independientes que trabajan en 
 * **Backend:** Node.js / Express (o las tecnologías que estén usando para el servidor)
 * **Control de Versiones:** Git y GitHub para el flujo de trabajo colaborativo.
 
-## 👨‍💻 Mi Contribución
-En este proyecto colaborativo, estuve a cargo del diseño y reestructuración de la arquitectura del repositorio general (Monorepo), además del desarrollo de [menciona acá lo que programaste, por ejemplo: la lógica del backend / el sistema de tickets / las pantallas del dashboard].
