@@ -13,25 +13,30 @@ body {
     flex-direction: column;
 }
 
-.main-header {
+/* --- NUEVOS ESTILOS DEL HEADER --- */
+header {
     background-color: #151518;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    border-bottom: 3px solid #00ff88;
+    border-bottom: 3px solid #72CCEF;
     flex-wrap: wrap;
     gap: 15px;
 }
 
-.header-brand {
+.logo-container {
     display: flex;
     align-items: center;
     gap: 10px;
+    text-decoration: none; /* Quita el subrayado del link */
+    color: #ffffff; /* Mantiene el color blanco */
 }
 
-.app-logo { 
-    font-size: 2rem; 
+.logo-container img { 
+    width: 50px;
+    height: 50px;
+    object-fit: contain; 
 }
 
 .app-name { 
@@ -47,15 +52,17 @@ body {
 }
 
 .student-credits strong { 
-    color: #00ff88; 
+    color: #72CCEF; 
 }
 
-.main-nav { 
+.enlaces { 
     display: flex; 
     gap: 10px;
+    list-style: none; /* Quita los puntitos de la lista (li) */
 }
 
-.nav-btn {
+.enlace a {
+    display: inline-block;
     background-color: #222226;
     color: #ffffff;
     text-decoration: none;
@@ -65,11 +72,13 @@ body {
     font-size: 0.9rem;
     transition: all 0.2s ease;
 }
-.nav-btn.active, .nav-btn:hover {
-    background-color: #00ff88;
+
+.enlace a.active, .enlace a:hover {
+    background-color: #72CCEF;
     color: #0d0d0e;
-    box-shadow: 0 0 10px #00ff88;
+    box-shadow: 0 0 10px #72CCEF;
 }
+/* --- FIN NUEVOS ESTILOS DEL HEADER --- */
 
 .hero-container {
     flex: 1;
@@ -90,7 +99,7 @@ body {
 }
 
 .welcome-box h2 { 
-    color: #00ff88;
+    color: #72CCEF;
     margin-bottom: 15px; 
     letter-spacing: 1px; 
 }
@@ -103,7 +112,7 @@ body {
 
 .btn-start {
     display: inline-block;
-    background-color: #00ff88;
+    background-color: #72CCEF;
     color: #0d0d0e;
     text-decoration: none;
     padding: 15px 40px;
@@ -116,7 +125,7 @@ body {
 
 .btn-start:hover { 
     transform: scale(1.05); 
-    box-shadow: 0 0 25px #00ff88; 
+    box-shadow: 0 0 25px #72CCEF; 
 }
 
 .filter-section {
@@ -138,8 +147,8 @@ body {
 }
 
 .btn-filter:hover { 
-    border-color: #00ff88; 
-    color: #00ff88; 
+    border-color: #72CCEF; 
+    color: #72CCEF; 
 }
 
 .totem-grid {
@@ -171,7 +180,7 @@ body {
 
 .producto-card:hover { 
     transform: translateY(-5px); 
-    border-color: #00ff88; 
+    border-color: #72CCEF; 
 }
 
 .producto-img { 
@@ -202,7 +211,7 @@ body {
 }
 
 .precio { 
-    color: #00ff88; 
+    color: #72CCEF; 
     font-size: 1.3rem; 
     font-weight: bold; 
     margin-bottom: 15px; 
@@ -221,9 +230,9 @@ body {
 }
 
 .btn-agregar:hover { 
-    background-color: #00ff88; 
+    background-color: #72CCEF; 
     color: #0d0d0e; 
-    border-color: #00ff88; 
+    border-color: #72CCEF; 
 }
 
 .cart-sidebar {
@@ -263,7 +272,7 @@ body {
 }
 
 .btn-checkout {
-    background-color: #00ff88;
+    background-color: #72CCEF;
     color: #0d0d0e;
     border: none;
     padding: 15px;
@@ -291,7 +300,7 @@ body {
 }
 
 .cart-item-info p { 
-    color: #00ff88; 
+    color: #72CCEF; 
     font-size: 0.85rem; 
     font-weight: bold; 
 }
@@ -333,7 +342,7 @@ body {
 
 .order-number { 
     background-color: #000000; 
-    color: #00ff88; 
+    color: #72CCEF; 
     padding: 15px; 
     margin-top: 15px; 
     border-radius: 4px; 
@@ -389,5 +398,15 @@ body {
     .totem-grid { grid-template-columns: 1fr; }
     .products-container { height: auto; overflow-y: visible; }
     .cart-sidebar { height: auto; }
-    .main-header { justify-content: center; text-align: center; }
+    /* Adaptamos el media query al nuevo header */
+    header { justify-content: center; text-align: center; }
+}
+
+.imagen-item {
+    max-width: 120px;
+    max-height: 120px;
+    margin: 5px;
+}
+.bloque-item {
+    list-style: none;
 }

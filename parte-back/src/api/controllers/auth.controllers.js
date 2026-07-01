@@ -1,4 +1,4 @@
-import connection from "../database/db.js";
+import userModels from "../models/user.models.js";
 
 export const loginView = (req, res) => {
     res.render("login", {
@@ -21,9 +21,8 @@ export const getAdminUser = async (req, res) => {
                 error: "Todos los campos son obligatorios"
             });
         }
-
-        const sql = "SELECT * FROM usuario WHERE email = ? and contraseña = ?";
-        const [rows] = await connection.query(sql, [email, password]);
+        
+        const [rows] = await userModels(email, password);
 
         if (rows.length === 0) {
             return res.render("login", {
@@ -40,10 +39,19 @@ export const getAdminUser = async (req, res) => {
         req.session.user = {
             id: user.id,
             nombre: user.nombre,
-            email: user.email
+            email: user.email,
+            esAdmin: user.es_admin
         }
-
-        res.redirect("/dashboard/index");
+        if (user.es_admin) {
+            res.redirect("/dashboard/index");
+        } else {
+            return res.render("login", {
+                title: "Login",
+                about: "Introduce tus credenciales",
+                archivoCss: "/css/login.css",
+                error: "No tienes permisos de administrador para acceder"
+            });
+        }
 
     } catch (error) {
         console.log(error)

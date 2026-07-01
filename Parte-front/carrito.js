@@ -1,57 +1,55 @@
-const contenedorItems = document.getElementById("pantalla-carrito-items");
-const textoTotal = document.getElementById("cart-total-txt");
+
+
+let carrito = JSON.parse(localStorage.getItem("carrito-productos")) || [];
 
 // 1. LEER DEL LOCALSTORAGE Y DIBUJAR
-function renderizarCarrito() {
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    contenedorItems.innerHTML = "";
+function mostrarCarrito() {
+    const contenedorCarrito = document.getElementById("pantalla-carrito-items");
+
+    contenedorCarrito.innerHTML = "";
+
+    let PrecioTotal = 0
 
     if (carrito.length === 0) {
-        contenedorItems.innerHTML = `<p style="color: #888; text-align: center; padding: 20px;">Tu pedido está vacío. ¡Anda al catálogo a buscar juegos! 🎮</p>`;
-        textoTotal.innerText = "$0";
-        return;
-    }
-
-    let totalAcumulado = 0;
-
-    carrito.forEach((item, index) => {
-        const subtotal = item.precio * item.cantidad;
-        totalAcumulado += subtotal;
-
-        const fila = document.createElement("div");
-        fila.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #1a1a1e;";
-
-        fila.innerHTML = `
-            <div>
-                <!-- Acordate que en el paso anterior le pusimos 'nombre' al objeto -->
-                <strong style="font-size: 1.1rem; color: #fff;">${item.nombre}</strong>
-                <div style="font-size: 0.85rem; color: #aaa;">
-                    $${item.precio.toLocaleString("es-AR")} x ${item.cantidad} u.
-                </div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <span style="color: #00ff88; font-weight: bold;">$${subtotal.toLocaleString("es-AR")}</span>
-                <button onclick="eliminarDelCarrito(${index})" style="background: transparent; border: none; color: #ff4444; cursor: pointer; font-size: 1.1rem;" title="Eliminar ítem">🗑️</button>
-            </div>
+        contenedorCarrito.innerHTML = `
+            <p>No hay productos en el carrito</p>
         `;
 
-        contenedorItems.appendChild(fila);
-    });
+    } else {
+        carrito.forEach((producto, indice) => {
 
-    textoTotal.innerText = `$${totalAcumulado.toLocaleString("es-AR")}`;
+            PrecioTotal += (producto.precio * producto.cantidad)
+            contenedorCarrito.innerHTML += `
+                <li class="bloque-item">
+                    <img class="imagen-item" src="${producto.imagen}" alt="${producto.nombre}>
+                    <p class="nombre-item">${producto.nombre} - ${producto.precio}</p>
+
+                    <div class="botones-cantidad"> 
+                        <button onclick="cambiarCantidad(${indice}, -1)"> - </button>
+                        <span> ${producto.cantidad}</span>
+                        <button onclick="cambiarCantidad(${indice}, 1)"> + </button>
+                    </div>
+                    
+                    <button class="boton-eliminar" onclick="eliminarProducto(${indice})">Eliminar</button>
+                </li>
+            `;
+        });
+    }
+
+    document.getElementById("cart-total-txt").textContent = `$${PrecioTotal}`;;
+
+    sincronizarStorage();
 }
 
 // 2. FUNCIÓN PARA BORRAR UN ÍTEM INDIVIDUAL
-function eliminarDelCarrito(indice) {
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    carrito.splice(indice, 1); // Cortamos el elemento de ese índice
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    renderizarCarrito(); // Volvemos a dibujar
+function eliminarProducto(indice) {
+    carrito.splice(indice, 1);
+
+    mostrarCarrito();
 }
 
 // 3. BOTÓN DE COMPRA FINAL (GENERAR TICKET)
 function procesarCompraFinal() {
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
     if (carrito.length === 0) {
         alert("❌ El carrito está vacío. No hay nada que cobrar.");
@@ -63,10 +61,26 @@ function procesarCompraFinal() {
     if (confirmacion) {
         // Acá podrías hacer un fetch() con método POST a un futuro endpoint /api/ventas
         alert("🔥 ¡COMPRA EXITOSA! Gracias por confiar en Gamer Zone.\n\nTu ticket fue generado y enviado a tu consola.");
-        localStorage.removeItem("carrito"); // Vaciamos la memoria
-        renderizarCarrito(); // Limpiamos pantalla
+        
+        carrito = [];
+        localStorage.removeItem("carrito-productos"); // Vaciamos la memoria
+        mostrarCarrito(); // Limpiamos pantalla
     }
 }
 
+function cambiarCantidad(indice, cambio) {
+    carrito[indice].cantidad += cambio;
+    
+    if (carrito[indice].cantidad === 0) {
+        eliminarProducto(indice);
+    } else {
+        mostrarCarrito();
+    }
+}
+
+function sincronizarStorage() {
+    localStorage.setItem("carrito-productos", JSON.stringify(carrito));
+}
+
 // Apenas carga el HTML, ejecutamos el dibujado
-document.addEventListener("DOMContentLoaded", renderizarCarrito);
+document.addEventListener("DOMContentLoaded", mostrarCarrito);

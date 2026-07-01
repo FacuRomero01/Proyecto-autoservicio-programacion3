@@ -1,7 +1,6 @@
 const URL_API = "http://localhost:3000/api/productos";
 const contenedorProductos = document.getElementById("contenedor-productos");
-
-let todosLosProductos = []; 
+let carrito = JSON.parse(localStorage.getItem("carrito-productos")) || [];
 
 async function obtenerProductos() {
     try {
@@ -27,6 +26,7 @@ async function obtenerProductos() {
     }
 }
 
+
 function renderizarProductos(listaProductos) {
     contenedorProductos.innerHTML = ""; 
 
@@ -43,7 +43,7 @@ function renderizarProductos(listaProductos) {
             const rutaImagen = `assets/img/${prod.imagen}`;
 
             tarjeta.innerHTML = `
-                <img src="${prod.imagen}" alt="${prod.producto}" class="producto-img">
+                <img src="${prod.imagen}" alt="${prod.nombre}" class="producto-img">
                 <div class="producto-info">
                     <h3>${prod.nombre}</h3>
                     <p class="categoria-tag">${prod.categoria}</p>
@@ -55,6 +55,7 @@ function renderizarProductos(listaProductos) {
         }
     });
 }
+
 
 function filtrarProductos(categoria) {
     if (categoria === 'TODOS') {
@@ -68,12 +69,10 @@ function filtrarProductos(categoria) {
 function agregarAlCarrito(id) {
     const idNumero = Number(id);
 
-    const producto = todosLosProductos.find(p => p.id === id);
+    const producto = todosLosProductos.find(p => p.id === idNumero);
     if (!producto) return;
-
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     
-    const existeEnCarrito = carrito.find(item => Number(item.id) === id);
+    const existeEnCarrito = carrito.find(item => item.id === idNumero);
 
     if (existeEnCarrito) {
         existeEnCarrito.cantidad++;
@@ -82,13 +81,18 @@ function agregarAlCarrito(id) {
             id: producto.id,
             nombre: producto.nombre,
             precio: producto.precio,
+            imagen: producto.imagen,
             cantidad: 1
         });
     }
 
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    
+    sincronizarStorage();
+    console.log("carrito:", carrito);
     alert(`🎮 ¡${producto.nombre} fue añadido a tu pedido!`);
+}
+
+function sincronizarStorage() {
+    localStorage.setItem("carrito-productos", JSON.stringify(carrito));
 }
 
 document.addEventListener("DOMContentLoaded", obtenerProductos);
