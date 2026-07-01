@@ -38,10 +38,10 @@ export const getOneProduct = async (req, res) => {
 // 3. CREAR PRODUCTO
 export const createProduct = async (req, res) => {
     try {
-        const {id, nombre, imagen, categoria, precio, valido} = req.body;
+        const {id, nombre, imagen, categoria, precio, activo} = req.body;
         const cleanName = nombre.trim();
 
-        const [rows] = await ProductModel.insertNewProduct(id, cleanName, imagen, categoria, precio, valido);
+        const [rows] = await ProductModel.insertNewProduct(id, cleanName, imagen, categoria, precio, activo);
 
         res.status(201).json({
             message: `Producto creado con éxito con id ${rows.insertId}`,

@@ -44,7 +44,7 @@ body {
 .seccion-productos {
     text-align: center;
     margin: 20px auto;
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 .seccion-productos h2 {
@@ -53,16 +53,21 @@ body {
 
 #contenedor-productos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     justify-content: center;
 }
 
 .card-producto {
-    border: solid gray;
-    background-color:#5c5c5c ;
+    border: solid #58a532;
+    background-color:#418022 ;
     color:white;
     margin: 30px;
-    padding: 5px;
+    padding: 10px;
+}
+
+.card-producto.inactivo {
+    background-color: rgb(117, 2, 2);
+    border: 3px dashed gray;
 }
 
 .card-producto img {

@@ -8,7 +8,7 @@
             <div id="contenedor-productos">
                 
                 <% productsArray.forEach(producto => { %>
-                    <div class="card-producto">
+                    <div class="card-producto <%= producto.activo == 0 ? 'inactivo' : '' %>">
                         <img src="<%=producto.imagen%>" alt="<%=producto.nombre%>">
                         <h4><%=producto.nombre%></h4>
                         <p>Id: <%=producto.id%></p>

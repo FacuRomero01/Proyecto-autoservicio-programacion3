@@ -95,9 +95,12 @@
 
                     <label for="priceProd">Precio</label>
                     <input type="number" name="precio" id="priceProd" value="${producto.precio}" required>
-
-                    <label for="activoProd">Activo</label>
-                    <input type="text" name="activo" id="activoProd" value="${producto.activo}" required>
+                    
+                    <label for="estadoProd">Estado</label>
+                    <select name="activo" id="estadoProd" required>
+                        <option value="1" ${producto.activo === 1 ? 'selected' : ''}>Activo</option>
+                        <option value="0" ${producto.activo === 0 ? 'selected' : ''}>Inactivo</option>
+                    </select>
 
                     <div>
                         <input type="submit" value="Actualizar producto">
@@ -129,6 +132,7 @@
             const data = Object.fromEntries(formData.entries());
 
                 data.precio = Number(data.precio);
+                data.activo = Number(data.activo);
 
             try {
                 let respuesta = await fetch(URL_PRODUCTOS, {
@@ -146,7 +150,7 @@
                     console.log(`Lista de errores: \n ${resultado.listaErrores.length}`);
                     contenedorForm.innerHTML = "";
                     if (resultado.listaErrores) {
-                        mostrarListaErrores(result.listaErrores);
+                        mostrarListaErrores(resultado.listaErrores);
                     }
                     mostrarMensaje("error", resultado.message);
                     console.log(resultado);
