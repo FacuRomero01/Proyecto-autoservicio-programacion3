@@ -65,8 +65,17 @@ const validateProduct = (req, res, next) => {
     next(); // Sin el next, no da paso al siguiente middleware o a procesar la respuesta
 }
 
+const requireLogin = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect("/login")
+    }
+    next();
+}
+
+
 export {
     loggerURL,
     validateId,
-    validateProduct
+    validateProduct,
+    requireLogin
 }
