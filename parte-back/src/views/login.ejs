@@ -37,5 +37,11 @@ Es decir, el middleware parseara automaticamente el tipo de info que envia el <f
     <button type="button" id="btn-test" class="btn-test">Rellenar Testing</button>
 </form>
 
+    <% if (typeof error !== "undefined") { %>
+        <div class="error-message">
+            <%= error %>
+        </div>
+    <% } %>
+
 <script src="/js/login.js"></script>
 <%- include("partials/head.ejs") %>

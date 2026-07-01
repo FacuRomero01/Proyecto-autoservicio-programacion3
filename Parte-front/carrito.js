@@ -64,7 +64,9 @@ function procesarCompraFinal() {
         
         carrito = [];
         localStorage.removeItem("carrito-productos"); // Vaciamos la memoria
+        localStorage.removeItem("nombre-cliente")
         mostrarCarrito(); // Limpiamos pantalla
+        window.location.href = "index.html"
     }
 }
 
