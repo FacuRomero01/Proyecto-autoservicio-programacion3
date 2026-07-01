@@ -72,8 +72,11 @@ body {
 
 .btn-logout {
     align-self: center;
-    padding: 2px 5px;
-    margin-left: 50px;
+    padding: 5px 8px;
+    margin-left: 30px;
     color: aliceblue;
     background-color: brown;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
 }

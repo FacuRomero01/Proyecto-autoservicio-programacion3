@@ -4,7 +4,7 @@ export const loginView = (req, res) => {
     res.render("login", {
         title: "Login",
         about: "Introduce tus credenciales",
-        archivoCss: "/css/index.css"
+        archivoCss: "/css/login.css"
     })
 }
 
@@ -17,7 +17,7 @@ export const getAdminUser = async (req, res) => {
             return res.render("login", {
                 title: "Login",
                 about: "Introduce tus credenciales",
-                archivoCss: "/css/index.css",
+                archivoCss: "/css/login.css",
                 error: "Todos los campos son obligatorios"
             });
         }
@@ -29,7 +29,7 @@ export const getAdminUser = async (req, res) => {
             return res.render("login", {
                 title: "Login",
                 about: "Introduce tus credenciales",
-                archivoCss: "/css/index.css",
+                archivoCss: "/css/login.css",
                 error: "Credenciales incorrectas"
             });
         }
