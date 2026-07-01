@@ -26,7 +26,10 @@ body {
 }
 
 .enlaces{
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
 }
 
 .enlaces a {
@@ -35,9 +38,9 @@ body {
 }
 
 .enlaces li {
-    display: inline;
     padding-inline: 10px;
 } 
+
 .seccion-productos {
     text-align: center;
     margin: 20px auto;
@@ -67,4 +70,10 @@ body {
     max-height: 100px;
 }
 
-
+.btn-logout {
+    align-self: center;
+    padding: 2px 5px;
+    margin-left: 50px;
+    color: aliceblue;
+    background-color: brown;
+}

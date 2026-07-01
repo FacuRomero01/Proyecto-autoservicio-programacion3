@@ -49,3 +49,17 @@ export const getAdminUser = async (req, res) => {
         console.log(error)
     }
 }
+
+export const destroyLogin = (req, res) => {
+    req.session.destroy((error) => {
+        if(error) {
+            console.log("Error al destruir la sesión: ", error);
+
+            return res.status(500).json({
+                message: "Error al cerrar la sesión"
+            });
+        }
+
+        res.redirect("/login")
+    });
+}
