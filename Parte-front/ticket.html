@@ -3,28 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamer Zone - Ticket de Compra</title>
+    <title>Matanza Gaming - Ticket de Compra</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/ticket.css">
 
-    <script src="tema.js" defer></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="header-brand">
-            <span class="app-logo">🎮</span> 
-            <h1 class="app-name">Gamer Zone</h1>
+    <header>
+        <div class="logo">
+            <a href="index.html" class="logo-container">
+                <img src="assets/img/logo.png" alt="logo matanza gaming">
+                <h1 class="app-name">MATANZA GAMING</h1>
+            </a>
         </div>
+
         <div class="student-credits">
             <p>Desarrollado por: <strong>Luciano Juárez</strong> y <strong>Facundo Romero</strong></p>
         </div>
-        <nav class="main-nav">
-            <a href="index.html" class="nav-btn">🏠 Inicio</a>
-            <a href="productos.html" class="nav-btn">🕹️ Catálogo</a>
-            <a href="ticket.html" class="nav-btn active">📋 Ver Ticket</a>
-        </nav>
+
+        <ul class="enlaces">
+            <li class="enlace">
+                <a href="index.html" class="active">
+                    <span>🏠 Inicio</span>
+                </a>
+            </li>
+
+            <li class="enlace">
+                <a href="productos.html">
+                    <span>🕹️ Catálogo</span>
+                </a>
+            </li>
+
+            <li class="enlace">
+                <a href="carrito.html">
+                    <span>🛒 Mi Pedido</span>
+                </a>
+            </li>
+        </ul>
     </header>
 
     <main class="ticket-container">
@@ -33,7 +49,7 @@
                 <h3>GRACIAS POR TU COMPRA</h3>
                 <p>Retirá tu pedido por el mostrador</p>
 
-                <p style="margin-top: 15px; font-weight: bold; font-size: 1rem; text-transform: uppercase;">CLIENTE: <span id="ticket-cliente" style="color: #000;">---</span></p>
+                <p class="ticket-client">CLIENTE: <span id="ticket-cliente" class="ticket-client-name">---</span></p>
 
                 <div class="order-number">
                     <span>SU NÚMERO DE PEDIDO ES</span>
@@ -43,26 +59,27 @@
             
             <hr class="ticket-divider">
             
-            <div id="ticket-detalle" class="ticket-details">
-                </div>
+            <div id="ticket-detalle" class="ticket-details"></div>
             
             <hr class="ticket-divider">
 
             <div class="ticket-footer">
-                <p style="font-weight: bold; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 5px;">GAMER ZONE</p>
-                <p id="ticket-fecha" style="font-size: 0.85rem; color: #555; margin-bottom: 15px;">FECHA: --/--/----</p>
+                <p class="ticket-footer-brand">GAMER ZONE</p>
+                <p id="ticket-fecha" class="ticket-date">FECHA: --/--/----</p>
 
                 <p>¡Que disfrutes tu compra!</p>
 
-                <button id="btn-descargar-pdf" style="display: block; width: 100%; max-width: 200px; margin: 0 auto 15px auto; padding: 10px; background-color: #72CCEF; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">📄 Descargar Ticket PDF</button>
+                <button id="btn-descargar-pdf">📄 Descargar Ticket PDF</button>
 
-                <a href="index.html" class="btn-back-tote" onclick="limpiarPedido()">SALIR</a>
+                <a href="index.html" class="btn-back-totem" onclick="limpiarPedido()">SALIR</a>
             </div>
         </div>
     </main>
 
-    <button id="theme-toggle" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background-color: #111; color: #fff; border: 2px solid #fff; border-radius: 30px; font-weight: bold; cursor: pointer; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">☀️ Modo Claro</button>
+    <button id="theme-toggle" class="theme-toggle-btn">☀️ Modo Claro</button>
 
     <script src="ticket.js"></script>
+    <script src="tema.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>

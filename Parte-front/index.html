@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matanza Gaming - Inicio</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+
 </head>
 <body>
 
@@ -39,6 +41,12 @@
                     <span>🛒 Mi Pedido</span>
                 </a>
             </li>
+
+            <li class="enlace">
+                <a href="http://localhost:3000/login">
+                    <span>Panel Admin</span>
+                </a>
+            </li>
         </ul>
     </header>
 
@@ -47,38 +55,17 @@
             <h2>¡BIENVENIDO A LA EXPERIENCIA GAMER!</h2>
             <p>Por favor, ingresá tu nombre para iniciar tu orden en el tótem de autoservicio.</p>
             
-            <div class="input-group" style="margin-bottom: 25px;">
-                <input type="text" id="nombre-cliente" placeholder="Tu nombre aquí..." style="padding: 12px; width: 100%; max-width: 300px; border-radius: 6px; border: 1px solid #222226; background: #0d0d0e; color: white; text-align: center; font-size: 1rem;">
+            <div class="input-group">
+                <input class="input-nombre" type="text" id="nombre-cliente" placeholder="Tu nombre aquí...">
             </div>
 
-            <button onclick="guardarNombreEIniciar()" class="btn-start" style="cursor: pointer; border: none;">🕹️ INICIAR MI PEDIDO</button>
+            <button onclick="guardarNombreEIniciar()" class="btn-start"">🕹️ INICIAR MI PEDIDO</button>
         </div>
     </main>
 
-    <button id="theme-toggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; padding: 12px 16px; cursor: pointer; border-radius: 50px; border: 2px solid #fff; background: #111; color: #fff; font-weight: bold; font-size: 1rem; box-shadow: 0px 4px 10px rgba(0,0,0,0.5);">🌙 Modo Oscuro</button>
+    <button id="theme-toggle" class="theme-toggle-btn">🌙 Modo Oscuro</button>
 
-    <script>
-        function guardarNombreEIniciar() {
-            const nombre = document.getElementById("nombre-cliente").value.trim();
-            if (!nombre) {
-                alert("Por favor, ingresá tu nombre antes de comenzar.");
-                return;
-            }
-            localStorage.setItem("nombre-cliente", nombre);
-            window.location.href = "productos.html";
-        }
-
-    const themeToggle = document.getElementById('theme-toggle');
-
-    themeToggle.addEventListener('click', () => {
-        if (document.documentElement.getAttribute('data-theme') === 'light') {
-            document.documentElement.removeAttribute('data-theme');
-            themeToggle.innerText = '🌙 Modo Oscuro';
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            themeToggle.innerText = '☀️ Modo Claro';
-        }
-    });
-    </script>
+    <script src="index.js"> </script>
+    <script src="tema.js"> </script>
 </body>
 </html>

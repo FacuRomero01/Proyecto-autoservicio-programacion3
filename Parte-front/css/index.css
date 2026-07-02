@@ -1,0 +1,60 @@
+.welcome-box h2 {
+    font-size: 1.8rem;
+    color: #72CCEF;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.welcome-box p {
+    color: #b0b0b5;
+    font-size: 1.05rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #0d0d0e;
+    border: 2px solid #33333a;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.05rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #72CCEF;
+}
+
+.btn-start {
+    width: 100%;
+    padding: 16px;
+    background-color: #72CCEF;
+    color: #0d0d0e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-start:hover {
+    background-color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Modo Claro */
+html[data-theme="light"] .welcome-box p { color: #555555; }
+html[data-theme="light"] .input-group input {
+    background-color: #ffffff;
+    border-color: #cccccc;
+    color: #1a1a1a;
+}

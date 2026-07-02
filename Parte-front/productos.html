@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamer Zone - Catálogo</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">   
+    <link rel="stylesheet" href="css/productos.css">    
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
 
-    <script src="tema.js" defer></script>
 </head>
 <body>
 
-        <header>
+    <header>
         <div class="logo">
             <a href="index.html" class="logo-container">
                 <img src="assets/img/logo.png" alt="logo matanza gaming">
-                <h1 class="app-name">Gamer Zone</h1>
+                <h1 class="app-name">MATANZA GAMING</h1>
             </a>
         </div>
 
@@ -44,15 +44,16 @@
         <button class="btn-filter" onclick="filtrarProductos('JUEGO')">💿 Videojuegos</button>
     </section>
 
-    <main style="padding: 0 20px 20px 20px; flex: 1;">
-        <div id="contenedor-productos" class="products-container" style="height: auto;">
+    <main class="main-catalog">
+        <div id="contenedor-productos" class="products-container products-container-auto">
             <p class="loading">Cargando catálogo gamer...</p>
         </div>
     </main>
 
-    <button id="theme-toggle" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background-color: #111; color: #fff; border: 2px solid #fff; border-radius: 30px; font-weight: bold; cursor: pointer; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">☀️ Modo Claro</button>
+    <button id="theme-toggle" class="theme-toggle-btn">☀️ Modo Claro</button>
 
     <script src="productos.js"></script>
     <script src="auth.js"></script>
+    <script src="tema.js"></script>
 </body>
 </html>

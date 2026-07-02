@@ -1,81 +1,137 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const ticketDetalle = document.getElementById("ticket-detalle");
-    const ticketId = document.getElementById("ticket-id");
-    const ticketCliente = document.getElementById("ticket-cliente");
-    const ticketFecha = document.getElementById("ticket-fecha"); 
-
-    const ultimoPedido = JSON.parse(localStorage.getItem("ultimo_pedido"));
-    const nombreGuardado = localStorage.getItem("cliente_nombre") || "Invitado";
-
-    if (!ultimoPedido || ultimoPedido.items.length === 0) {
-        ticketDetalle.innerHTML = "<p style='text-align:center;'>No se encontró ningún ticket reciente.</p>";
-        return;
-    }
-
-    ticketCliente.innerText = nombreGuardado;
-    ticketId.innerText = `#${String(ultimoPedido.id).padStart(3, '0')}`;
-
-    const fechaTexto = `${hoy.toLocaleDateString('es-AR')} - ${hoy.toLocaleTimeString('es-AR', {hour: '2-digit', minute:'2-digit'})}`;
-    ticketFecha.innerText = `FECHA: ${fechaTexto}`;
-
-    let htmlContenido = "";
-
-    ultimoPedido.items.forEach(item => {
-        const subtotal = item.precio * item.cantidad;
-        htmlContenido += `
-            <div class="ticket-line">
-                <span>${item.cantidad}x ${item.producto}</span>
-                <span>$${subtotal.toLocaleString('es-AR')}</span>
-            </div>
-        `;
-    });
-
-    htmlContenido += `
-        <div class="ticket-line" style="font-weight: bold; margin-top: 15px; font-size: 1.1rem;">
-            <span>TOTAL:</span>
-            <span>$${ultimoPedido.total.toLocaleString('es-AR')}</span>
-        </div>
-    `;
-
-    ticketDetalle.innerHTML = htmlContenido;
-
-    const btnDescargar = document.getElementById("btn-descargar-pdf");
-    if (btnDescargar) {
-        btnDescargar.addEventListener("click", () => {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFontSize(22);
-            doc.text("GAMER ZONE - TICKET DE COMPRA", 10, 20);
-            doc.line(10, 25, 200, 25); 
-
-            doc.setFontSize(14);
-            doc.text(`Ticket Nro: #${String(ultimoPedido.id).padStart(3, '0')}`, 10, 40);
-            doc.text(`Cliente: ${nombreGuardado}`, 10, 50);
-            doc.text(`Fecha: ${fechaTexto}`, 10, 60);
-            doc.text("--------------------------------------------------", 10, 70);
-
-            let posY = 80;
-            ultimoPedido.items.forEach(item => {
-                const subtotal = item.precio * item.cantidad;
-                doc.text(`• ${item.producto} (x${item.cantidad}) ---- $${subtotal.toLocaleString('es-AR')}`, 10, posY);
-                posY += 10;
-            });
-
-            doc.text("--------------------------------------------------", 10, posY);
-            posY += 10;
-            doc.setFontSize(16);
-            doc.text(`TOTAL: $${ultimoPedido.total.toLocaleString('es-AR')}`, 10, posY);
-
-            doc.save(`Ticket_GamerZone_${nombreGuardado}.pdf`);
-        });
+    cargarTicket();
+    
+    // Escuchador del botón de PDF
+    const btnPdf = document.getElementById("btn-descargar-pdf");
+    if (btnPdf) {
+        btnPdf.addEventListener("click", generarPDF);
     }
 });
 
-function reiniciarTotem(event) {
-    event.preventDefault(); 
+// ==========================================
+// 1. CARGAR LOS DATOS EN EL HTML
+// ==========================================
+function cargarTicket() {
+    // Traemos los datos de la memoria
+    const pedidoString = localStorage.getItem("ultimo_pedido");
+    const nombreCliente = localStorage.getItem("nombre-cliente")
+
+    // Convertimos el texto JSON a un objeto de JavaScript
+    const pedido = JSON.parse(pedidoString);
+
+    // Llenamos la cabecera
+    document.getElementById("ticket-cliente").textContent = nombreCliente;
     
-    localStorage.clear(); 
+    // Formateamos el ID para que tenga ceros adelante 
+    const idFormateado = pedido.id ? pedido.id.toString().padStart(3, '0') : "000";
+    document.getElementById("ticket-id").textContent = `#${idFormateado}`;
+
+    // Ponemos la fecha y hora de Argentina
+    const fechaActual = new Date().toLocaleString("es-AR");
+    document.getElementById("ticket-fecha").textContent = `FECHA: ${fechaActual}`;
+
+    // Llenamos el detalle de los items
+    const detalleContenedor = document.getElementById("ticket-detalle");
+    detalleContenedor.innerHTML = ""; // Limpiamos por si había algo
+
+    pedido.items.forEach(item => {
+        const subtotal = item.precio * item.cantidad;
+        const div = document.createElement("div");
+        div.style.display = "flex";
+        div.style.justifyContent = "space-between";
+        div.style.marginBottom = "8px";
+        
+        div.innerHTML = `
+            <span>${item.cantidad}x ${item.producto}</span>
+            <span>$${subtotal.toLocaleString("es-AR")}</span>
+        `;
+        detalleContenedor.appendChild(div);
+    });
+
+    // Agregamos el Total
+    const totalDiv = document.createElement("div");
+    totalDiv.style.display = "flex";
+    totalDiv.style.justifyContent = "space-between";
+    totalDiv.style.marginTop = "20px";
+    totalDiv.style.fontWeight = "bold";
+    totalDiv.style.fontSize = "1.2rem";
+    totalDiv.innerHTML = `
+        <span>TOTAL:</span>
+        <span>$${pedido.total.toLocaleString("es-AR")}</span>
+    `;
+    detalleContenedor.appendChild(totalDiv);
+}
+
+// ==========================================
+// 2. GENERAR Y DESCARGAR EL PDF (jsPDF)
+// ==========================================
+function generarPDF() {
+    const pedidoString = localStorage.getItem("ultimo_pedido");
+    const nombreCliente = localStorage.getItem("nombre-cliente") || "Invitado";
     
-    window.location.href = "index.html";
+    if (!pedidoString) return;
+
+    const pedido = JSON.parse(pedidoString);
+    const { jsPDF } = window.jspdf; // Traemos la librería que pusiste en el HTML
+    const doc = new jsPDF(); // Creamos un lienzo en blanco
+
+    const idFormateado = pedido.id ? pedido.id.toString().padStart(3, '0') : "000";
+    const fechaActual = new Date().toLocaleString("es-AR");
+
+    // Diseñando el PDF (Posiciones X, Y)
+    doc.setFontSize(22);
+    doc.text("MATANZA GAMING", 105, 20, null, null, "center");
+    
+    doc.setFontSize(12);
+    doc.text("Comprobante de Pago", 105, 30, null, null, "center");
+    
+    doc.setFontSize(11);
+    doc.text(`Cliente: ${nombreCliente}`, 20, 50);
+    doc.text(`Pedido Nro: #${idFormateado}`, 20, 60);
+    doc.text(`Fecha: ${fechaActual}`, 20, 70);
+
+    doc.line(20, 75, 190, 75); // Línea separadora
+
+    doc.setFontSize(14);
+    doc.text("Detalle de la Compra", 20, 85);
+    
+    doc.setFontSize(11);
+    let posicionY = 95;
+    
+    pedido.items.forEach(item => {
+        const subtotal = item.precio * item.cantidad;
+        doc.text(`${item.cantidad}x ${item.producto}`, 20, posicionY);
+        doc.text(`$${subtotal.toLocaleString("es-AR")}`, 170, posicionY);
+        posicionY += 10;
+    });
+
+    doc.line(20, posicionY, 190, posicionY); // Línea separadora
+    posicionY += 10;
+
+    doc.setFontSize(14);
+    doc.text("TOTAL:", 20, posicionY);
+    doc.text(`$${pedido.total.toLocaleString("es-AR")}`, 170, posicionY);
+
+    doc.setFontSize(10);
+    doc.text("¡Que disfrutes tus juegos!", 105, posicionY + 25, null, null, "center");
+    doc.text("The cake is a lie", 105, posicionY + 45, null, null, "center");
+
+    // Le damos la orden de descargar el archivo con el número de pedido en el nombre
+    doc.save(`Ticket_MatanzaGaming_${idFormateado}.pdf`);
+}
+
+// ==========================================
+// 3. LIMPIAR LA SESIÓN AL SALIR
+// ==========================================
+// Esta función ya está enlazada al onclick="limpiarPedido()" de tu HTML
+function limpiarPedido() {
+    const temaGuardado = localStorage.getItem("tema-preferido"); 
+
+    // 2. Borramos TODO el localStorage (pedidos, carritos viejos, nombres, etc.)
+    localStorage.clear();
+
+    // 3. Si el usuario tenía un tema guardado, se lo devolvemos
+    if (temaGuardado !== null) {
+        localStorage.setItem("tema-preferido", temaGuardado);
+    }
 }
